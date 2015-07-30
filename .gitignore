@@ -17,8 +17,15 @@ config.log
 config.sub
 config.status
 configure
+compile
 depcomp
+install-sh
 missing
 .libs/
 Makefile
 Makefile.in
+
+picosel/picosel
+ccfx/ccfx
+*.ccfxd
+*.ccfxprep

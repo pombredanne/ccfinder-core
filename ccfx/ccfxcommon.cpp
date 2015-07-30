@@ -691,7 +691,7 @@ int read_script_table(std::vector<std::pair<std::string/* ext */, std::string/* 
 	std::vector<std::pair<std::string/* ext */, std::string/* scriptFile */> > &data = *pOutput;
 
 	std::vector<std::string> descFiles;
-	descFiles.push_back(make_filename_on_the_same_directory("ccfx_prep_scripts.ini", argv0));
+	descFiles.push_back(INIPATH "/ccfx_prep_scripts.ini");
 
 	if (oOptionalPrepScriptDescriptionFiles) {
 		const std::vector<std::string> &dfs = *oOptionalPrepScriptDescriptionFiles;
