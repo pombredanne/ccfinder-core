@@ -76,7 +76,8 @@ def main():
         path_dict = {}
         for cloned_file in clone:
             # the [28:] removes /home/peter/devel/git/linux from the path
-            short_path = cloned_file[0].text[28:]
+            # short_path = cloned_file[0].text[28:]
+            short_path = cloned_file[0].text
             short_path_num = ids.add(short_path)
             line_count = int(cloned_file[2].text) - int(cloned_file[1].text)
             path_dict[short_path_num] = line_count
