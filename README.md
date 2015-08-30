@@ -39,6 +39,7 @@ directory. For Fedora19:
 
     $ ./ccfx/ccfx p a.ccfxd > /tmp/ccfinderx.out # Pretty? print the results
     $ ./ccfx/scripts/post-prettyprint.pl /tmp/ccfinderx.out /tmp/ccfinderx.xml # Convert line numbers, save to XML
+    $ ./ccfx/scripts/similarfiles.py /tmp/ccfinderx.xml |sort -n -r > /tmp/dups # Make a list of files that are likely to be very similar
 
     $ ./ccfx/ccfx m a.ccfxd -c # Calculates clone metrics
     $ ./ccfx/ccfx m a.ccfxd -f # Calculates file metrics
