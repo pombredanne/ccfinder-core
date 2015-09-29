@@ -46,9 +46,9 @@ int __cdecl _fseeki64 (FILE *stream, __int64 offset, int whence);
 #define FREAD fread
 #define FGETC fgetc
 #define FPUTC fputc
-#define FTELL64 ftello64
+#define FTELL64 ftello
 #define FTELL ftell
-#define FSEEK64 fseeko64
+#define FSEEK64 fseeko
 #define FSEEK fseek
 
 #endif
