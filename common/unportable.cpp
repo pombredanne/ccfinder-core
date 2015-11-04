@@ -562,7 +562,11 @@ void find_files_i(std:: vector<std:: string> *pFiles, const std:: set<std:: stri
 	struct dirent *dir;
 	struct stat fi;
 	
-	if ((dp = opendir(currentDir.c_str())) == NULL) {
+	  char buf[1000];
+	  getcwd(buf, 1000);
+	  if ((dp = opendir(buf)) == NULL) {
+	  //	if ((dp = opendir(currentDir.c_str())) == NULL) {
+	  printf("%s %s\n\n", buf, currentDir.c_str());
 		assert(("fail to open directory", false)); // 2007/11/22
 	}
 	

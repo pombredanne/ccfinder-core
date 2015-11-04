@@ -38,6 +38,8 @@
 #include "../../common/win32util.h"
 #endif
 
+#include "jni.h"
+
 #if 0
 BOOL APIENTRY DllMain( HANDLE hModule, 
                        DWORD  ul_reason_for_call, 
@@ -114,7 +116,10 @@ std::string getPathWithoutSpace(const std::string &dir)
 	return SYS2INNER(str);
 }
 #endif
-/*
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 JNIEXPORT void JNICALL Java_ccfinderx_CCFinderX_setModuleDirectory
   (JNIEnv *env, jobject, jstring strDir)
 {
@@ -124,7 +129,7 @@ JNIEXPORT void JNICALL Java_ccfinderx_CCFinderX_setModuleDirectory
 #if defined _MSC_VER
 	str = getPathWithoutSpace(str);
 	if (str.empty()) { // error!
-		str = utf8StrDir;
+		str = utf8StrDir ;
 	}
 #endif	
 	oModuleDir = str;
@@ -140,7 +145,8 @@ JNIEXPORT jstring JNICALL Java_ccfinderx_CCFinderX_getCCFinderXPath
 #if defined OS_WIN32
 	std:: string exeFile = *oModuleDir + file_separator() + "ccfx.exe";
 #elif defined OS_UNIX
-	std:: string exeFile = *oModuleDir + file_separator() + "ccfx";
+//	std:: string exeFile = *oModuleDir + file_separator() + "ccfx";
+	std:: string exeFile = "/usr/local/bin/ccfx";
 #endif
 
 	std:: string exeFileUtf8 = SYS2INNER(exeFile);
@@ -192,7 +198,6 @@ JNIEXPORT jintArray JNICALL Java_ccfinderx_CCFinderX_getVersion
 
 	return ary;
 }
-*/
 void openUrl(const std::string &url)
 {
 #if defined OS_WIN32
@@ -201,7 +206,7 @@ void openUrl(const std::string &url)
 	::system(("firefox " + url).c_str());
 #endif
 }
-/*
+
 JNIEXPORT void JNICALL Java_ccfinderx_CCFinderX_openOfficialSiteTop
   (JNIEnv *env, jobject, jstring pageSuffix)
 {
@@ -238,7 +243,7 @@ JNIEXPORT void JNICALL Java_ccfinderx_CCFinderX_openOfficialSiteDocumentPage
 	const char* utf8PageSuffix = env->GetStringUTFChars(pageSuffix, NULL);
 	std::string str = utf8PageSuffix;
 	if (str.length() == 0) {
-		str == "en";
+		str = "en";
 	}
 	const char* utf8PageFileName = env->GetStringUTFChars(pageFileName, NULL);
 	std::string page  = utf8PageFileName;
@@ -249,65 +254,7 @@ JNIEXPORT void JNICALL Java_ccfinderx_CCFinderX_openOfficialSiteDocumentPage
 	env->ReleaseStringUTFChars(pageFileName, utf8PageFileName); 
 	env->ReleaseStringUTFChars(pageSuffix, utf8PageSuffix); 
 }
-*/
 
-int exec_ccfx(const std:: vector<std:: string> &argsUtf8)
-{
-	assert(!! oModuleDir);
-
-#if defined OS_WIN32
-	std:: string arg0 = *oModuleDir + file_separator() + "ccfx.exe";
-#elif defined OS_UNIX
-	std:: string arg0 = *oModuleDir + file_separator() + "ccfx";
-#endif
-
-	ArgvBuilder argv;
-	argv.push_back(arg0);
-
-	for (size_t i = 0; i < argsUtf8.size(); ++i) {
-		const std::string &arg = INNER2SYS(argsUtf8[i]);
-		argv.push_back(arg);
-	}
-
-	std:: cerr << "exec: " << argv.str() << std::endl;
-
-#if defined _MSC_VER
-	int r = _spawnv(_P_WAIT, arg0.c_str(), argv.c_argv());
-	//int r;
-	//{
-	//	PROCESS_INFORMATION pi;
-	//	STARTUPINFO si;
-	//	::ZeroMemory(&si, sizeof(si));
-	//	si.cb = sizeof(si);
-	//	std::string s = argv.str();
-	//	std::vector<char> buffer(s.begin(), s.end());
-	//	buffer.push_back('\0');
-	//	BOOL result = ::CreateProcess(NULL, &buffer[0], NULL, NULL, TRUE, 
-	//		CREATE_NO_WINDOW | CREATE_DEFAULT_ERROR_MODE, NULL, NULL, &si, &pi);
-	//	if (result == 0) {
-	//		r = -1;
-	//	}
-	//	else {
-	//		r = 0;
-	//		::CloseHandle(pi.hThread);
-	//		::WaitForSingleObject(pi.hProcess, INFINITE);
-	//		DWORD exitCode;
-	//		if (::GetExitCodeProcess(pi.hProcess, &exitCode)) {
-	//			r = exitCode;
-	//		}
-	//		else {
-	//			r = -1;
-	//		}
-	//		::CloseHandle(pi.hProcess);
-	//	}
-	//}
-#elif defined __GNUC__
-	int r = systemv(argv.value());
-#endif
-
-	return r;
-}
-/*
 JNIEXPORT jbyteArray JNICALL Java_ccfinderx_CCFinderX_openPrepFile
   (JNIEnv *env, jobject, jstring fileName0, jstring postfix0)
 {
@@ -410,7 +357,7 @@ JNIEXPORT jstring JNICALL Java_ccfinderx_CCFinderX_getPythonInterpreterPath
 #if defined _MSC_VER
 		thePythonInterpreterPath = "C:" "\\" "Python26" "\\" "python.exe";
 #elif defined OS_UBUNTU
-		thePythonInterpreterPath = "/usr/bin/python";
+		thePythonInterpreterPath = "/usr/local/bin/python";
 #endif
 	}
 	return env->NewStringUTF(thePythonInterpreterPath.c_str()); // may return null
@@ -436,7 +383,67 @@ JNIEXPORT jboolean JNICALL Java_ccfinderx_CCFinderX_isProcessAlive
 {
     return process_is_alive(processId);
 }
-*/
+#ifdef __cplusplus
+}
+#endif
+
+int exec_ccfx(const std:: vector<std:: string> &argsUtf8)
+{
+	assert(!! oModuleDir);
+
+#if defined OS_WIN32
+	std:: string arg0 = *oModuleDir + file_separator() + "ccfx.exe";
+#elif defined OS_UNIX
+	std:: string arg0 = *oModuleDir + file_separator() + "ccfx";
+#endif
+
+	ArgvBuilder argv;
+	argv.push_back(arg0);
+
+	for (size_t i = 0; i < argsUtf8.size(); ++i) {
+		const std::string &arg = INNER2SYS(argsUtf8[i]);
+		argv.push_back(arg);
+	}
+
+	std:: cerr << "exec: " << argv.str() << std::endl;
+
+#if defined _MSC_VER
+	int r = _spawnv(_P_WAIT, arg0.c_str(), argv.c_argv());
+	//int r;
+	//{
+	//	PROCESS_INFORMATION pi;
+	//	STARTUPINFO si;
+	//	::ZeroMemory(&si, sizeof(si));
+	//	si.cb = sizeof(si);
+	//	std::string s = argv.str();
+	//	std::vector<char> buffer(s.begin(), s.end());
+	//	buffer.push_back('\0');
+	//	BOOL result = ::CreateProcess(NULL, &buffer[0], NULL, NULL, TRUE, 
+	//		CREATE_NO_WINDOW | CREATE_DEFAULT_ERROR_MODE, NULL, NULL, &si, &pi);
+	//	if (result == 0) {
+	//		r = -1;
+	//	}
+	//	else {
+	//		r = 0;
+	//		::CloseHandle(pi.hThread);
+	//		::WaitForSingleObject(pi.hProcess, INFINITE);
+	//		DWORD exitCode;
+	//		if (::GetExitCodeProcess(pi.hProcess, &exitCode)) {
+	//			r = exitCode;
+	//		}
+	//		else {
+	//			r = -1;
+	//		}
+	//		::CloseHandle(pi.hProcess);
+	//	}
+	//}
+#elif defined __GNUC__
+	int r = systemv(argv.value());
+#endif
+
+	return r;
+}
+
 #if defined __GNUC__
 boost::optional<std::vector<std::string> > read_lines(const std::string &fileName)
 {

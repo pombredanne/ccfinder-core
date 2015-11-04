@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # Peter Senna Tschudin <peter.senna@gmail.com>
 """Given the xml output of post-prettyprint.pl, produces a text file

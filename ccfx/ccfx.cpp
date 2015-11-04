@@ -2564,7 +2564,7 @@ void setup_global_constants(const char *argv0)
 		}
 		else {
 #if defined OS_UBUNTU
-			thePythonInterpreterPath = "/usr/bin/python";
+			thePythonInterpreterPath = "/usr/local/bin/python";
 #endif
 #if defined _MSC_VER
 			std::string s = get_open_command_for_extension(".py");
@@ -2625,7 +2625,7 @@ int expand_command_file(std::vector<std::string> *pArgvec)
 							pOptionLineValues = std::pair<std::string, std::string>(line.substr(0, k), line.substr(k + 1));
 							break; // while k
 						}
-						if (! ('a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z' || ch == '_' || ch == '-')) {
+						if (! (('a' <= ch && ch <= 'z') || ('A' <= ch && ch <= 'Z') || ch == '_' || ch == '-')) {
 							break; // while k
 						}
 						++k;
@@ -2702,7 +2702,11 @@ int main(int argc, char *argv[])
 	}
 
 	std::vector<std::string> argvec;
-	std::for_each(argv, argv + argc, boost::bind(&std::vector<std::string>::push_back, &argvec, _1));
+	
+	//	std::for_each(argv, argv + argc, boost::bind(&std::vector<std::string>::push_back, &argvec, _1));
+	for (int i = 0; i < argc; i++) {
+	  argvec.push_back(argv[i]);
+	}
 	int r = expand_command_file(&argvec);
 	if (r != 0) {
 		return r;

@@ -5,6 +5,7 @@
 #include <vector>
 #include <map>
 #include "../common/hash_map_includer.h"
+#include "../ccfx/ccfxcommon.h"
 #include <algorithm>
 #include <limits>
 #include <iterator> 
@@ -324,6 +325,7 @@ public:
 		{
 			return *pSeq;
 		}
+	public:
 		size_t getUnitLength() const
 		{
 			return unitLength;
@@ -372,6 +374,7 @@ public:
 		{
 			return *pSeq;
 		}
+	public:
 		size_t getUnitLength() const
 		{
 			return unitLength;
@@ -467,7 +470,7 @@ public:
 				}
 				break;
 			case mode_cross:
-				if (posA >= barrior && posB >= barrior || posA < barrior && posB < barrior) {
+				if ((posA >= barrior && posB >= barrior) || (posA < barrior && posB < barrior)) {
 					return;
 				}
 				break;
@@ -516,7 +519,8 @@ private:
 				boost::uint64_t cloneSetReferenceNumber)
 		{
 			//const typename std:: vector<ElemType> &seq = refSeq();
-			size_t unitLength = getUnitLength();
+		  //			size_t unitLength = getUnitLength();
+		        size_t unitLength = unitLength;
 
 			for (size_t csi = 0; csi < cloneSet.size(); ++csi) {
 				const CloneSetItem &cs = cloneSet[csi];
@@ -597,6 +601,7 @@ public:
 	{
 		multiply = multiply_;
 	}
+ public:
 	size_t getUnitLength() const
 	{
 		return bottomUnitLength * multiply;
@@ -612,11 +617,6 @@ public:
 	void clearCloneSetReferenceNumber()
 	{
 		cloneSetReferenceNumber = 0;
-	}
-	void findClonePair(ClonePairListener *pListener, SequenceHashFunction &hashFunc)
-	{
-		ClonePairListenerAdapter a(pListener);
-		findCloneSet(&a, hashFunc);
 	}
 public:
 	void print_seq(size_t beginPos, size_t len)
@@ -819,6 +819,11 @@ public:
 		eater.join();
 
 		hashSeq.clear();
+	}
+	void findClonePair(ClonePairListener *pListener, SequenceHashFunction &hashFunc)
+	{
+		ClonePairListenerAdapter a(pListener);
+		findCloneSet(&a, hashFunc);
 	}
 private:
 	void find_clone_set_i(std:: vector<size_t/* pos */> *pPoss, size_t begin, size_t end, 

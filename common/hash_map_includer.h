@@ -31,9 +31,9 @@
 
 // 2008/06/25 Modified to use TR1 container.
 
-#include <tr1/unordered_map>
-#define HASH_MAP std::tr1::unordered_map
-#define HASH_COMPARE std::tr1::hash
+#include <unordered_map>
+#define HASH_MAP std::unordered_map
+#define HASH_COMPARE std::hash
 
 #endif
 

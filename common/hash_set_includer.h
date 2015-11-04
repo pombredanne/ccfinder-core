@@ -29,8 +29,8 @@
 
 // 2008/06/25 Modified to use TR1 container.
 
-#include <tr1/unordered_set>
-#define HASH_SET std::tr1::unordered_set
+#include <unordered_set>
+#define HASH_SET std::unordered_set
 
 #endif
 

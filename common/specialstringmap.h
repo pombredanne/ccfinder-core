@@ -246,7 +246,7 @@ public:
 
 	inline bool empty() const
 	{
-		return size == 0;
+		return size() == 0;
 	}
 
 	void clear()

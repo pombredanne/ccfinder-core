@@ -80,7 +80,7 @@ public:
 		if (pFile != NULL) {
 			unsigned long long newByteCount = (newSize + 8 - 1) / 8;
 			if (newByteCount >= LONG_MAX) {
-				assert(("too large size for onfile::DynamicBitSet", false));
+			  //				assert(("too large size for onfile::DynamicBitSet", false));
 			}
 			if (newSize > bitCount) {
 				unsigned long long byteCount = (bitCount + 8 - 1) / 8;
@@ -731,7 +731,7 @@ public:
 		if (pFile != NULL) {
 			unsigned long long newByteCount = (itemCount + 1) * sizeof(ItemType);
 			if (newByteCount >= LONG_MAX) {
-				assert(("too large size for onfile::Array<ItemType>", false));
+			  //		assert(("too large size for onfile::Array<ItemType>", false));
 			}
 			unsigned long long byteCount = itemCount * sizeof(ItemType);
 			FSEEK64(pFile, byteCount, SEEK_SET);
@@ -746,7 +746,7 @@ public:
 		if (pFile != NULL) {
 			unsigned long long newByteCount = (itemCount + count) * sizeof(ItemType);
 			if (newByteCount >= LONG_MAX) {
-				assert(("too large size for onfile::Array<ItemType>", false));
+			  //		assert(("too large size for onfile::Array<ItemType>", false));
 			}
 			unsigned long long byteCount = itemCount * sizeof(ItemType);
 			FSEEK64(pFile, byteCount, SEEK_SET);
@@ -760,7 +760,7 @@ public:
 		if (pFile != NULL) {
 			unsigned long long newByteCount = newSize * sizeof(ItemType);
 			if (newByteCount >= LONG_MAX) {
-				assert(("too large size for onfile::Array<ItemType>", false));
+			  //		assert(("too large size for onfile::Array<ItemType>", false));
 			}
 			if (newSize > itemCount) {
 				unsigned long long byteCount = itemCount * sizeof(ItemType);
