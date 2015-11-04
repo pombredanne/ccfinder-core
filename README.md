@@ -1,3 +1,9 @@
+for OS X and MacPorts
+./configure CFLAGS='-g -I/opt/local/include -I/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/include -I/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/include/darwin/' CXXFLAGS='-g -I/opt/local/include -I/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/include -I/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/include/darwin/' LDFLAGS='-g -L/opt/local/lib -L/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/lib' CXX=clang++ CC=clang
+make
+make install 
+sudo cp torq/pyeasytorq/.libs/easytorq.so /Library/Python/2.7/site-packages/
+
 CCFinderX core
 ==============
 
